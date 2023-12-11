@@ -1,7 +1,7 @@
 console.log("This is app.js");
 
 // Sample will hold the url for the json that we will use.
-const sample = 'https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json'
+const sample = "https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json"
 
 function DrawBarChart(sampleId) {
     console.log("DrawBarChart(${sampleId})");
@@ -14,10 +14,10 @@ function DrawBarChart(sampleId) {
         let result = resultArray[0];
 
         let otu_ids = result.otu_ids;
-        let otu_labels = result.otu_lables;
+        let otu_labels = result.otu_labels;
         let sample_values = result.sample_values;
 
-        let yticks = otu_ids.slice(0, 10).map(otuId => 'OTU ${otuId}').reverse();
+        let yticks = otu_ids.slice(0,10).map(otuId => `OTU ${otuId}`).reverse();
 
         // Create the data for the bar chart.
         let barData = {
@@ -32,7 +32,7 @@ function DrawBarChart(sampleId) {
         let barArray = [barData];
         let barLayout = {
             title: "Top 10 - Bactieria Cultures Found",
-            margin: {t: 30, 1: 150}
+            margin: {t: 55, l: 150}
         };
 
         // Use the Plotly function.
@@ -80,24 +80,27 @@ function DrawBubbleChart(sampleId){
   
 }
 
+
 function ShowMetaData(sampleId) {
     console.log("ShowMetaData)${sampleId})");
+
+    console.log(`ShowMetadata(${sampleId})`);
 
     d3.json(sample).then((data) => {
         let metadata = data.metadata;
         console.log(metadata);
 
-        // Filter the data.
+        // Filter data
         let result = metadata.filter(meta => meta.id == sampleId)[0];
         let demographicInfo = d3.select('#sample-metadata');
 
-        // Clear existing  Demographic Info.
-        demographicInfo.html("");
+        // Clear existing data in demographicInfo
+        demographicInfo.html('');
 
+        // Add key and value pair to the demographicInfo panel
         Object.entries(result).forEach(([key, value]) => {
-            demographicInfo.append('h6').text('${key}: ${value}');
+            demographicInfo.append('h6').text(`${key}: ${value}`);
         });
-
     });
 }
 
@@ -106,7 +109,7 @@ function optionChanged(sampleId) {
 
     DrawBarChart(sampleId);
     DrawBubbleChart(sampleId);
-    DrawGauge(sampleId);
+    DrawGaugeChart(sampleId);
     ShowMetaData(sampleId);
 }
 
